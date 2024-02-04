@@ -1,21 +1,30 @@
 import { FC } from "react";
 
-interface PostProps {
+interface Post {
   title: string;
-  url: string;
-  selectedPost: string;
-  onSelectPost: (url: string) => void;
+  subreddit: string;
+  id: string;
 }
 
-export const Post: FC<PostProps> = ({
-  title,
-  url,
-  selectedPost,
-  onSelectPost,
-}) => {
+interface PostProps {
+  post: Post;
+  selectedPost: Post;
+  onSelectPost: (post: Post) => void;
+}
+
+export const Post: FC<PostProps> = ({ post, selectedPost, onSelectPost }) => {
+  function handleClick() {
+    if (post.id !== selectedPost.id) {
+      onSelectPost(post);
+    }
+  }
+
   return (
-    <div onClick={}>
-      <p>{title}</p>
+    <div
+      onClick={handleClick}
+      className={`col-span-1 rounded-lg border-2 ${selectedPost.id === post.id ? "border-reddit-orange" : "border-neutral-900"} bg-neutral-700 p-4 shadow-lg hover:border-reddit-orange`}
+    >
+      <p className="text-neutral-100">{post.title}</p>
     </div>
   );
 };

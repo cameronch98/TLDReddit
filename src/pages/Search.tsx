@@ -1,28 +1,42 @@
 import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
 import { Results } from "../components/Results";
+import { Summary } from "../components/Summary";
 import { FC } from "react";
+
+interface Post {
+  title: string;
+  subreddit: string;
+  id: string;
+}
 
 export const Search: FC = () => {
   const [query, setQuery] = useState("");
-  const [selectedPost, setSelectedPost] = useState("");
+  const [selectedPost, setSelectedPost] = useState({
+    title: "",
+    subreddit: "",
+    id: "",
+  });
 
   function handleSearch(userInput: string) {
     setQuery(userInput);
   }
 
-  function handleSelectPost(url: string) {
-    setSelectedPost(url);
+  function handleSelectPost(post: Post) {
+    setSelectedPost(post);
   }
 
   return (
-    <div>
+    <div className="my-16 flex flex-col items-center justify-center gap-3">
       <SearchBar onSearch={handleSearch} />
-      <Results
-        query={query}
-        selectedPost={selectedPost}
-        onSelectPost={handleSelectPost}
-      />
+      {query && (
+        <Results
+          query={query}
+          selectedPost={selectedPost}
+          onSelectPost={handleSelectPost}
+        />
+      )}
+      {selectedPost.id && <Summary selectedPost={selectedPost} />}
     </div>
   );
 };

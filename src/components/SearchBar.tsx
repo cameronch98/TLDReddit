@@ -17,16 +17,21 @@ export const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
   }
 
   return (
-    <form id="search-form" onSubmit={handleSubmit}>
-      <p>Search a topic or question ...</p>
-      <input
-        id="search-bar"
-        type="text"
-        value={userInput}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setUserInput(e.target.value)
-        }
-      ></input>
-    </form>
+    <div className="w-6/12">
+      <form id="search-form" onSubmit={handleSubmit} className="">
+        <p className="py-4 text-lg font-bold text-neutral-100">
+          Search a topic or question ...
+        </p>
+        <input
+          id="search-bar"
+          type="text"
+          value={userInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUserInput(e.target.value)
+          }
+          className="w-full rounded-lg border-2 border-neutral-900 bg-neutral-700 p-4 text-neutral-100 shadow-lg focus:border-reddit-orange focus:outline-none"
+        ></input>
+      </form>
+    </div>
   );
 };

@@ -2,10 +2,16 @@ import { FC, useEffect, useState } from "react";
 import axios from "axios";
 import { Post } from "./Post";
 
+interface Post {
+  title: string;
+  subreddit: string;
+  id: string;
+}
+
 interface ResultsProps {
   query: string;
-  selectedPost: string;
-  onSelectPost: (url: string) => void;
+  selectedPost: Post;
+  onSelectPost: (post: Post) => void;
 }
 
 interface Result {
@@ -36,10 +42,12 @@ export const Results: FC<ResultsProps> = ({
         const response = await searchClient.get(
           `?key=${apiKey}&cx=${engineId}&q=${query}`,
         );
+
         setResults(
           response.data.items.map((result: Result) => ({
             title: result.title,
-            url: result.link,
+            subreddit: result.link.match(/(?<=\/r\/)(.+?)(?=\/)/)![1],
+            id: result.link.match(/(?<=comments\/)(.+?)(?=\/)/)![1],
           })),
         );
       } catch (error) {
@@ -54,11 +62,14 @@ export const Results: FC<ResultsProps> = ({
   console.log(results);
 
   return (
-    <div>
-      {results.map(({ title, url }) => (
+    <div className="grid w-6/12 grid-cols-2 gap-3">
+      <p className="col-span-2 text-lg font-bold text-neutral-100">
+        Choose a post:
+      </p>
+      {results.map((post, i) => (
         <Post
-          title={title}
-          url={url}
+          key={i}
+          post={post}
           selectedPost={selectedPost}
           onSelectPost={onSelectPost}
         />
