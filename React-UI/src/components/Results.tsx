@@ -61,9 +61,9 @@ export const Results: FC<ResultsProps> = ({
 
   return (
     <div className="grid w-6/12 grid-cols-2 gap-3">
-      <p className="col-span-2 text-lg font-bold text-neutral-100">
+      <h1 className="col-span-2 text-lg font-bold text-neutral-100">
         Choose a post:
-      </p>
+      </h1>
       {results.map((post, i) => (
         <Post
           key={i}

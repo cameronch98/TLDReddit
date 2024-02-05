@@ -31,7 +31,7 @@ export const Search: FC = () => {
           onSelectPost={handleSelectPost}
         />
       )}
-      {selectedPost.title && <Summary selectedPost={selectedPost} />}
+      {selectedPost.id && <Summary selectedPost={selectedPost} />}
     </div>
   );
 };
