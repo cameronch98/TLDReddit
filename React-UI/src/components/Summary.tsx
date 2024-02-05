@@ -33,8 +33,8 @@ export const Summary: FC<SummaryProps> = ({ selectedPost }) => {
   }, [selectedPost]);
 
   return (
-    <div className="grid w-6/12 grid-cols-1 gap-3">
-      <h1 className="col-span-1 text-lg font-bold text-neutral-100">
+    <div className="grid w-6/12 grid-cols-1 gap-3 py-4">
+      <h1 className="col-span-1 text-2xl font-extrabold text-neutral-100">
         Summary:
       </h1>
       <div className="col-span-1 rounded-lg border-2 border-reddit-orange bg-neutral-700 p-4 shadow-lg">

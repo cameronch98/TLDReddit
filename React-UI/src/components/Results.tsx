@@ -60,8 +60,8 @@ export const Results: FC<ResultsProps> = ({
   console.log(results);
 
   return (
-    <div className="grid w-6/12 grid-cols-2 gap-3">
-      <h1 className="col-span-2 text-lg font-bold text-neutral-100">
+    <div className="grid w-6/12 grid-cols-2 gap-3 py-4">
+      <h1 className="col-span-2 text-2xl font-extrabold text-neutral-100">
         Choose a post:
       </h1>
       {results.map((post, i) => (

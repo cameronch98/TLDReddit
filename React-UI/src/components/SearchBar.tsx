@@ -17,9 +17,9 @@ export const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
   }
 
   return (
-    <div className="w-6/12">
+    <div className="w-6/12 py-4">
       <form id="search-form" onSubmit={handleSubmit} className="">
-        <h1 className="py-4 text-lg font-bold text-neutral-100">
+        <h1 className="py-4 text-2xl font-extrabold text-neutral-100">
           Search a topic or question ...
         </h1>
         <input

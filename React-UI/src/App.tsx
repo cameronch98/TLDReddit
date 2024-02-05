@@ -1,4 +1,4 @@
-import Home from "./pages/Home";
+import { Home } from "./pages/Home";
 import { Search } from "./pages/Search";
 import { FAQs } from "./pages/FAQs";
 import { NavBar } from "./components/NavBar";
