@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const Home: FC = () => {
   return (
     <div className="flex h-screen items-center justify-center">
-      <div className="w-3/12 ">
+      <div className="w-3/12">
         <h1 className="py-4 text-center text-7xl font-extrabold text-reddit-orange">
           Real answers. Real Fast.
         </h1>

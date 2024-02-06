@@ -15,6 +15,7 @@ export const Search: FC = () => {
 
   function handleSearch(userInput: string) {
     setQuery(userInput);
+    setSelectedPost({ title: "", id: "" });
   }
 
   function handleSelectPost(post: Post) {

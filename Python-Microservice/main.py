@@ -25,12 +25,10 @@ def get_comments(post_id):
     submission = reddit.submission(post_id)
     
     # Initialize dict/JSON
-    post_text = {
-        "original_post": submission.selftext
-    }
+    post_text = "Original post: " + submission.selftext
 
     # Extract comments and send
     submission.comments.replace_more(limit=None)
     for i, comment in enumerate(submission.comments.list()):
-        post_text[f'comment_{i}'] = comment.body
+        post_text += f'\nComment {i}: {comment.body}'
     return post_text
