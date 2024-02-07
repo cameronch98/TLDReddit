@@ -1,20 +1,11 @@
-import { Home } from "./pages/Home";
-import { Search } from "./pages/Search";
-import { FAQs } from "./pages/FAQs";
 import { NavBar } from "./components/NavBar";
-import { Route, Routes } from "react-router-dom";
+import { AnimatedRoutes } from "./components/AnimatedRoutes";
 
 function App() {
   return (
-    <div className="h-screen bg-neutral-800 font-sans">
+    <div className="min-h-screen bg-gradient-to-b from-neutral-900 to-neutral-600 font-sans">
       <NavBar />
-      <div>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/faqs" element={<FAQs />} />
-        </Routes>
-      </div>
+      <AnimatedRoutes />
     </div>
   );
 }

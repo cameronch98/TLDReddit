@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import axios from "axios";
 import { Post } from "./Post";
+import { easeIn, motion, spring } from "framer-motion";
 
 interface Post {
   title: string;
@@ -34,8 +35,9 @@ export const Results: FC<ResultsProps> = ({
 }) => {
   const [results, setResults] = useState([]);
 
-  // Fetch search results when query state changes
+  // Get new search results when query state changes
   useEffect(() => {
+    setResults([]);
     const fetchResults = async () => {
       try {
         const response = await searchClient.get(
@@ -60,18 +62,25 @@ export const Results: FC<ResultsProps> = ({
   console.log(results);
 
   return (
-    <div className="grid w-6/12 grid-cols-2 gap-3 py-4">
+    <motion.div
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ type: spring, ease: easeIn, duration: 0.2 }}
+      exit={{ scale: 0 }}
+      className="grid w-4/12 grid-cols-2 gap-3 py-4"
+    >
       <h1 className="col-span-2 text-2xl font-extrabold text-neutral-100">
         Choose a post:
       </h1>
       {results.map((post, i) => (
         <Post
           key={i}
+          postNum={i}
           post={post}
           selectedPost={selectedPost}
           onSelectPost={onSelectPost}
         />
       ))}
-    </div>
+    </motion.div>
   );
 };
