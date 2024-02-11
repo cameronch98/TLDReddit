@@ -32,7 +32,7 @@ export const Post: FC<PostProps> = ({
       }
       animate={{ x: 0, opacity: 1 }}
       transition={{ type: spring, ease: easeIn, delay: 0.1, duration: 0.6 }}
-      exit={postNum <= 4 ? { x: -200, opacity: 0 } : { x: 200, opacity: 0 }}
+      exit={{ opacity: 0, transition: { duration: 0.3 } }}
       whileHover={{ scale: 1.01, transition: { duration: 0.1 } }}
       whileTap={{ scale: 1.2, transition: { duration: 0.1 } }}
       onClick={handleClick}

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
 import { Results } from "../components/Results";
 import { Summary } from "../components/Summary";
@@ -9,27 +8,27 @@ interface Post {
   id: string;
 }
 
-export const Search: FC = () => {
-  const [query, setQuery] = useState("");
-  const [selectedPost, setSelectedPost] = useState({ title: "", id: "" });
+interface SearchProps {
+  query: string;
+  selectedPost: Post;
+  onSearch: (userInput: string) => void;
+  onSelectPost: (post: Post) => void;
+}
 
-  function handleSearch(userInput: string) {
-    setQuery(userInput);
-    setSelectedPost({ title: "", id: "" });
-  }
-
-  function handleSelectPost(post: Post) {
-    setSelectedPost(post);
-  }
-
+export const Search: FC<SearchProps> = ({
+  query,
+  selectedPost,
+  onSearch,
+  onSelectPost,
+}) => {
   return (
     <div className="my-16 flex flex-col items-center justify-center gap-3">
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar query={query} onSearch={onSearch} />
       {query && (
         <Results
           query={query}
           selectedPost={selectedPost}
-          onSelectPost={handleSelectPost}
+          onSelectPost={onSelectPost}
         />
       )}
       {selectedPost.id && <Summary selectedPost={selectedPost} />}

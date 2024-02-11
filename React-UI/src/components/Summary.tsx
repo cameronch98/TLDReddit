@@ -1,9 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import UseAnimations from "react-useanimations";
 import loading2 from "react-useanimations/lib/loading2";
 import OpenAI from "openai";
 import axios from "axios";
 import { easeIn, motion, spring } from "framer-motion";
+import { RxReload } from "react-icons/rx";
 
 // TS Interfaces
 interface Post {
@@ -25,48 +26,57 @@ export const Summary: FC<SummaryProps> = ({ selectedPost }) => {
   const [comments, setComments] = useState<string>("");
   const [summary, setSummary] = useState<string | null>("");
 
-  // Fetch comments and reset summary upon post change
-  useEffect(() => {
-    setSummary("");
-    const fetchComments = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/get-comments/${selectedPost.id}`,
-        );
-        console.log(response.data);
-        setComments(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (selectedPost) {
-      fetchComments();
+  // Callback to fetch comments from post
+  const fetchComments = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/get-comments/${selectedPost.id}`,
+      );
+      console.log(response.data);
+      setComments(response.data);
+    } catch (error) {
+      console.log(error);
     }
   }, [selectedPost]);
 
+  // Callback to generate summary of post
+  const generateSummary = useCallback(async () => {
+    try {
+      const completion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: "user",
+            content: `Highlight the key contents of this Reddit post in 250 words or less and don't say anything until your response is ready. Focus on giving a summary with context that the original poster would care about, based on their post. You aren't presenting this to the original poster, you are presenting it to another person who wants to utilize this information. ${comments}`,
+          },
+        ],
+        model: "gpt-4-turbo-preview",
+        max_tokens: 500,
+      });
+      setSummary(completion.choices[0].message.content);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [comments]);
+
+  // Fetch comments and reset summary upon post change
+  useEffect(() => {
+    setSummary("");
+    if (selectedPost) {
+      fetchComments();
+    }
+  }, [selectedPost, fetchComments]);
+
   // Generate the summary upon comment change
   useEffect(() => {
-    const generateSummary = async () => {
-      try {
-        const completion = await openai.chat.completions.create({
-          messages: [
-            {
-              role: "user",
-              content: `Highlight the key contents of this Reddit post in 250 words or less and don't say anything until your response is ready. Focus on giving a summary with context that the original poster would care about, based on their post. You aren't presenting this to the original poster, you are presenting it to another person who wants to utilize this information. ${comments}`,
-            },
-          ],
-          model: "gpt-4-turbo-preview",
-          max_tokens: 300,
-        });
-        setSummary(completion.choices[0].message.content);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     if (comments) {
       generateSummary();
     }
-  }, [comments]);
+  }, [comments, generateSummary]);
+
+  function handleRegenerate() {
+    setSummary("");
+    generateSummary();
+  }
 
   return summary ? (
     <motion.div
@@ -81,6 +91,15 @@ export const Summary: FC<SummaryProps> = ({ selectedPost }) => {
       </h1>
       <div className="col-span-1 rounded-lg border-2 border-reddit-orange bg-neutral-700 p-4 shadow-lg">
         <p className="p-4 text-lg font-bold text-neutral-100">{summary}</p>
+      </div>
+      <div className="flex flex-col items-center justify-center py-4">
+        <button
+          onClick={handleRegenerate}
+          className="inline-flex items-center rounded-lg border-2 border-reddit-orange bg-neutral-700 p-4 text-lg font-extrabold text-neutral-100 shadow-lg"
+        >
+          {" "}
+          <RxReload className="text-2xl text-reddit-orange" />
+        </button>
       </div>
     </motion.div>
   ) : (

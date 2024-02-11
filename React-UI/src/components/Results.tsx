@@ -59,8 +59,6 @@ export const Results: FC<ResultsProps> = ({
     }
   }, [query]);
 
-  console.log(results);
-
   return (
     <motion.div
       initial={{ scale: 0 }}

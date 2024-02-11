@@ -1,13 +1,14 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useState } from "react";
 import { easeIn, motion, spring } from "framer-motion";
 
 // TS Interface for Search Bar Props
 interface SearchBarProps {
+  query: string;
   onSearch: (userInput: string) => void;
 }
 
-export const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
+export const SearchBar: FC<SearchBarProps> = ({ query, onSearch }) => {
   // State for user input to search bar
   const [userInput, setUserInput] = useState("");
 
@@ -16,6 +17,13 @@ export const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
     e.preventDefault();
     onSearch(userInput);
   }
+
+  // Empty user input upon reset
+  useEffect(() => {
+    if (!query) {
+      setUserInput("");
+    }
+  }, [query]);
 
   return (
     <motion.div
@@ -32,6 +40,7 @@ export const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
         <motion.input
           id="search-bar"
           type="text"
+          placeholder={query}
           value={userInput}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setUserInput(e.target.value)
