@@ -18,13 +18,12 @@ reddit = praw.Reddit(
 @app.route('/get-comments/<string:post_id>')
 def get_comments(post_id):
     """Extract and send back comments in submission with given post_id"""
-    # Logs
     print(f'Incoming request for comments on post {post_id} ...')
 
     # Get submission object
     submission = reddit.submission(post_id)
     
-    # Initialize dict/JSON
+    # Initialize dict/JSON with original post
     post_text = "Original post: " + submission.selftext
 
     # Extract comments and send

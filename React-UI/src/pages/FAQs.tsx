@@ -43,7 +43,10 @@ export const FAQs: FC = () => {
             perform a search. TLDReddit will present you with a selection of the
             most related Reddit posts. Simply select one and the synopsis of the
             post will be generated for you in real time. You can regenerate the
-            synopsis by clicking the reload button underneath the summary.
+            synopsis by clicking the reload button underneath the summary. Once
+            the summary has been generated, related Wikipedia links based on key
+            words from the summary will be generated beneath. Click one to be
+            taken to the Wikipedia page in a new tab!
           </p>
         </div>
         <div>
@@ -65,6 +68,14 @@ export const FAQs: FC = () => {
           The search functionality operates very quickly, usually yielding
           results in under 2 seconds. Summary generation takes a bit longer,
           with most queries being processed in about 15-30 seconds!
+        </p>
+        <div></div>
+        <h2 className="font-extrabold text-reddit-orange sm:py-2 sm:text-lg lg:text-xl 2K:text-2xl 4K:py-4 4K:text-4xl">
+          How quickly can I get Wikipedia links?
+        </h2>
+        <p className="font-bold text-neutral-100 sm:text-sm lg:text-base 2K:text-lg 4K:text-2xl">
+          The contextual Wikipedia feature should output related pages in less
+          than 10 seconds after summary generation is finished!
         </p>
         <div>
           <h2 className="font-extrabold text-reddit-orange sm:py-2 sm:text-lg lg:text-xl 2K:text-2xl 4K:py-4 4K:text-4xl">

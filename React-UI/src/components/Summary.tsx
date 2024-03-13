@@ -5,8 +5,8 @@ import OpenAI from "openai";
 import axios from "axios";
 import { easeIn, motion, spring } from "framer-motion";
 import { RxReload } from "react-icons/rx";
+import { WikiResults } from "./WikiResults";
 
-// TS Interfaces
 interface Post {
   title: string;
   id: string;
@@ -16,7 +16,6 @@ interface SummaryProps {
   selectedPost: Post;
 }
 
-// Initialize openai API
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
@@ -73,35 +72,37 @@ export const Summary: FC<SummaryProps> = ({ selectedPost }) => {
     }
   }, [comments, generateSummary]);
 
+  // Handler to regenerate summary upon clicking regen button
   function handleRegenerate() {
     setSummary("");
     generateSummary();
   }
 
   return summary ? (
-    <motion.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ type: spring, ease: easeIn, delay: 0.2, duration: 0.6 }}
-      exit={{ opacity: 0, transition: { duration: 0.3 } }}
-      className="grid w-4/12 grid-cols-1 gap-3 py-4"
-    >
-      <h1 className="col-span-1 text-2xl font-extrabold text-neutral-100">
-        Summary:
-      </h1>
-      <div className="col-span-1 rounded-lg border-2 border-reddit-orange bg-neutral-700 p-4 shadow-lg">
-        <p className="p-4 text-lg font-bold text-neutral-100">{summary}</p>
-      </div>
-      <div className="flex flex-col items-center justify-center py-4">
-        <button
-          onClick={handleRegenerate}
-          className="inline-flex items-center rounded-lg border-2 border-reddit-orange bg-neutral-700 p-4 text-lg font-extrabold text-neutral-100 shadow-lg"
-        >
-          {" "}
-          <RxReload className="text-2xl text-reddit-orange" />
-        </button>
-      </div>
-    </motion.div>
+    <>
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ type: spring, ease: easeIn, delay: 0.2, duration: 0.6 }}
+        exit={{ opacity: 0, transition: { duration: 0.3 } }}
+        className="grid w-4/12 grid-cols-1 gap-3 py-4"
+      >
+        <div className="col-span-1 flow-root">
+          <h1 className=" float-left text-2xl font-extrabold text-neutral-100">
+            Summary:
+          </h1>
+
+          <RxReload
+            onClick={handleRegenerate}
+            className="border-1 float-right border-reddit-orange text-3xl text-neutral-100 shadow-lg hover:text-reddit-orange"
+          />
+        </div>
+        <div className="col-span-1 rounded-lg border-2 border-reddit-orange bg-neutral-700 p-4 shadow-lg">
+          <p className="p-4 text-lg font-bold text-neutral-100">{summary}</p>
+        </div>
+      </motion.div>
+      <WikiResults summary={summary} />
+    </>
   ) : (
     <div className="flex w-6/12 flex-col items-center justify-center py-8">
       <button

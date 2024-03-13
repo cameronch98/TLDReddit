@@ -4,16 +4,12 @@ import { easeIn, spring, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 
-// TS Interface for Search Bar Props
 interface QuickSearchProps {
   onSearch: (userInput: string) => void;
 }
 
 export const QuickSearch: FC<QuickSearchProps> = ({ onSearch }) => {
-  // State for user input to search bar
   const [userInput, setUserInput] = useState("");
-
-  // Set up navigation
   const navigate = useNavigate();
 
   // Form handler to update state in search page component

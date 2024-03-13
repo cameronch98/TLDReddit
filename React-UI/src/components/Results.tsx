@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Post } from "./Post";
 import { easeIn, motion, spring } from "framer-motion";
@@ -19,11 +19,9 @@ interface Result {
   link: string;
 }
 
-// Get API key and search engine id
 const apiKey = import.meta.env.VITE_SEARCH_API_KEY;
 const engineId = import.meta.env.VITE_SEARCH_ENGINE_ID;
 
-// Create axios instance
 const searchClient = axios.create({
   baseURL: "https://www.googleapis.com/customsearch/v1",
 });
@@ -35,29 +33,30 @@ export const Results: FC<ResultsProps> = ({
 }) => {
   const [results, setResults] = useState([]);
 
-  // Get new search results when query state changes
+  // Callback to fetch new search results
+  const fetchResults = useCallback(async () => {
+    try {
+      const response = await searchClient.get(
+        `?key=${apiKey}&cx=${engineId}&q=${query}`,
+      );
+      setResults(
+        response.data.items.map((result: Result) => ({
+          title: result.title,
+          id: result.link.match(/(?<=comments\/)(.+?)(?=\/)/)![1],
+        })),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }, [query]);
+
+  // Fetch and set new search results when query state changes
   useEffect(() => {
     setResults([]);
-    const fetchResults = async () => {
-      try {
-        const response = await searchClient.get(
-          `?key=${apiKey}&cx=${engineId}&q=${query}`,
-        );
-
-        setResults(
-          response.data.items.map((result: Result) => ({
-            title: result.title,
-            id: result.link.match(/(?<=comments\/)(.+?)(?=\/)/)![1],
-          })),
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
     if (query) {
       fetchResults();
     }
-  }, [query]);
+  }, [query, fetchResults]);
 
   return (
     <motion.div

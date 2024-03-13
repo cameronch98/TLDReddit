@@ -2,14 +2,12 @@ import { FC, useEffect } from "react";
 import { useState } from "react";
 import { easeIn, motion, spring } from "framer-motion";
 
-// TS Interface for Search Bar Props
 interface SearchBarProps {
   query: string;
   onSearch: (userInput: string) => void;
 }
 
 export const SearchBar: FC<SearchBarProps> = ({ query, onSearch }) => {
-  // State for user input to search bar
   const [userInput, setUserInput] = useState("");
 
   // Form handler to update state in search page component

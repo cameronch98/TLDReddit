@@ -14,7 +14,6 @@ interface Post {
 function App() {
   const [query, setQuery] = useState("");
   const [selectedPost, setSelectedPost] = useState({ title: "", id: "" });
-
   const location = useLocation();
 
   // Handler for updating state when making a search
@@ -28,7 +27,7 @@ function App() {
     setSelectedPost(post);
   }
 
-  // Clear selected post when navigating away from search
+  // Clear selected post/summary when navigating away from search
   useEffect(() => {
     if (location.pathname !== "/search") {
       setSelectedPost({ title: "", id: "" });

@@ -19,6 +19,7 @@ export const Post: FC<PostProps> = ({
   selectedPost,
   onSelectPost,
 }) => {
+  // Handler to update selected post upon clicking new post
   function handleClick() {
     if (post.id !== selectedPost.id) {
       onSelectPost(post);
